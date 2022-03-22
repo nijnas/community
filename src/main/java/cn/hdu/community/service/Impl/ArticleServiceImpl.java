@@ -23,7 +23,7 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    public List<Article> writeArticle(Article article, Integer articleAuthorID) {
+    public Article writeArticle(Article article, Integer articleAuthorID) {
         Article newArticle = new Article();
         newArticle.setArticleTitle(article.getArticleTitle());
         newArticle.setArticleAuthorId(articleAuthorID);
@@ -31,7 +31,7 @@ public class ArticleServiceImpl implements ArticleService {
         newArticle.setArticleStatus(article.getArticleStatus());
         newArticle.setArticleAllowComment(article.getArticleAllowComment());
         articledao.save(newArticle);
-        return articledao.findTopById(newArticle.getId());
+        return articledao.findArticleById(newArticle.getId());
     }
 
     @Override
@@ -45,6 +45,12 @@ public class ArticleServiceImpl implements ArticleService {
         originalArticle.setArticleTitle(article.getArticleTitle());
         articledao.save(originalArticle);
         return articledao.existsArticleById(originalArticle.getId());
+    }
+
+    @Override
+    public Boolean deleteArticleByID(Integer articleID) {
+        articledao.deleteArticleById(articleID);
+        return !articledao.existsArticleById(articleID);
     }
 
 }
